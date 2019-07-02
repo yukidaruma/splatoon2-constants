@@ -47,7 +47,6 @@ const cacheGetRequest = async (url, options = {}, cacheName) => {
 
 (async () => {
   const bosses = require(path.resolve(DATA_DIR, 'salmon-bosses.js'));
-  const stages = require(path.resolve(DATA_DIR, 'salmon-stages.js'));
   const salmonWeapons = require(path.resolve(DATA_DIR, 'salmon-weapons.js'));
   const statInkWeapons = await cacheGetRequest(
     'https://stat.ink/api/v2/weapon',
@@ -80,10 +79,11 @@ const cacheGetRequest = async (url, options = {}, cacheName) => {
     });
     return result;
   };
-  const generateStageLocs = (lang) => {
+  const generateStageLocs = (lang, locale) => {
     const result = {};
+    const stages = require(path.resolve(DATA_DIR, 'salmon-stages.js'));
     stages.forEach((stage) => {
-      result[stage.key] = stage.loc[lang];
+      result[stage.key] = locale.coop_stages[stage.splatoon2ink].name;
     });
     return result;
   };
@@ -115,7 +115,7 @@ const cacheGetRequest = async (url, options = {}, cacheName) => {
     const salmonLocale = {
       bosses: generateBossLocs(lang),
       specials: generateSpecialLocs(lang, locale),
-      stages: generateStageLocs(lang),
+      stages: generateStageLocs(lang, locale),
       weapons: generateWeaponLoc(lang),
     };
     saveBuiltFile(salmonLocalePath, salmonLocale);
