@@ -9,6 +9,8 @@ const statInkLocaleNames = {
 
 const bosses = require(path.resolve(DATA_DIR, 'salmon-bosses.js'));
 const stages = require(path.resolve(DATA_DIR, 'salmon-stages.js'));
+const salmonWaterLevels = require(path.resolve(DATA_DIR, 'salmon-water-levels.js'));
+const salmonEvents = require(path.resolve(DATA_DIR, 'salmon-events.js'));
 const salmonWeapons = require(path.resolve(DATA_DIR, 'salmon-weapons.js'));
 const salmonSpecialWeapons = [
   { id: 2, key: 'splashbomb_pitcher' },
@@ -24,6 +26,13 @@ const generateBossLocs = (lang) => {
   });
   return result;
 };
+const generateEventLocs = (lang) => {
+  const result = {};
+  salmonEvents.forEach((event) => {
+    result[event.key] = event.loc[lang];
+  });
+  return result;
+};
 const generateSpecialLocs = (lang, locale) => {
   const result = {};
   salmonSpecialWeapons.forEach((special) => {
@@ -35,6 +44,13 @@ const generateStageLocs = (lang, locale) => {
   const result = {};
   stages.forEach((stage) => {
     result[stage.key] = locale.coop_stages[stage.splatoon2ink].name;
+  });
+  return result;
+};
+const generateWaterLevelLocs = (lang) => {
+  const result = {};
+  salmonWaterLevels.forEach((waterLevel) => {
+    result[waterLevel.key] = waterLevel.loc[lang];
   });
   return result;
 };
@@ -60,7 +76,9 @@ const generateWeaponLocs = (lang, statInkWeapons) => {
 
 module.exports = {
   generateBossLocs,
+  generateEventLocs,
   generateSpecialLocs,
   generateStageLocs,
+  generateWaterLevelLocs,
   generateWeaponLocs,
 };
