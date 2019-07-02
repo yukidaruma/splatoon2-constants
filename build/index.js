@@ -95,7 +95,7 @@ const cacheGetRequest = async (url, options = {}, cacheName) => {
   };
 
   supportedLanguages.forEach((lang) => {
-    const salmonLocalePath = path.resolve(DIST_DIR, `salmon/${lang}.json`);
+    const salmonLocalePath = path.resolve(DIST_DIR, `salmon/locale/${lang}.json`);
     const salmonLocale = {
       bosses: generateBossLocs(lang),
       stage: generateStageLocs(lang),
