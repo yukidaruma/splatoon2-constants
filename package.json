@@ -1,0 +1,20 @@
+{
+  "name": "splatoon2-constants",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yukidaruma/splatoon2-constants.git"
+  },
+  "author": "yukidaruman (https://github.com/yukidaruma)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yukidaruma/splatoon2-constants/issues"
+  },
+  "homepage": "https://github.com/yukidaruma/splatoon2-constants#readme",
+  "private": true
+}
