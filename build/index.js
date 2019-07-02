@@ -46,6 +46,7 @@ const cacheGetRequest = async (url, options = {}, cacheName) => {
 };
 
 (async () => {
+  const bosses = require(path.resolve(DATA_DIR, 'salmon-bosses.js'));
   const salmonWeapons = require(path.resolve(DATA_DIR, 'salmon-weapons.js'));
   const statInkWeapons = await cacheGetRequest(
     'https://stat.ink/api/v2/weapon',
@@ -58,6 +59,13 @@ const cacheGetRequest = async (url, options = {}, cacheName) => {
    */
 
   // Locales
+  const generateBossLocs = (lang) => {
+    const result = {};
+    bosses.forEach((boss) => {
+      result[boss.key] = boss.loc[lang];
+    });
+    return result;
+  };
   const generateWeaponLoc = (lang) => {
     const result = {};
     const salmonMainWeapons = statInkWeapons.filter(weapon =>
@@ -81,6 +89,7 @@ const cacheGetRequest = async (url, options = {}, cacheName) => {
   supportedLanguages.forEach((lang) => {
     const salmonLocalePath = path.resolve(DIST_DIR, `salmon/${lang}.json`);
     const salmonLocale = {
+      bosses: generateBossLocs(lang),
       weapons: generateWeaponLoc(lang),
     };
     saveBuiltFile(salmonLocalePath, salmonLocale);
