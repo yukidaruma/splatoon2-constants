@@ -98,7 +98,7 @@ const cacheGetRequest = async (url, options = {}, cacheName) => {
     const salmonLocalePath = path.resolve(DIST_DIR, `salmon/locale/${lang}.json`);
     const salmonLocale = {
       bosses: generateBossLocs(lang),
-      stage: generateStageLocs(lang),
+      stages: generateStageLocs(lang),
       weapons: generateWeaponLoc(lang),
     };
     saveBuiltFile(salmonLocalePath, salmonLocale);
