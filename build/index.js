@@ -5,6 +5,7 @@ const path = require('path');
 const {
   generateBossLocs,
   generateEventLocs,
+  generateFailReasonLocs,
   generateSpecialLocs,
   generateStageLocs,
   generateWaterLevelLocs,
@@ -69,6 +70,7 @@ const cacheGetRequest = async (url, options = {}, cacheName) => {
     const salmonLocale = {
       boss: generateBossLocs(lang),
       event: generateEventLocs(lang),
+      fail_reason: generateFailReasonLocs(lang),
       special: generateSpecialLocs(lang, locale),
       stage: generateStageLocs(lang, locale),
       water_level: generateWaterLevelLocs(lang),

@@ -33,6 +33,18 @@ const generateEventLocs = (lang) => {
   });
   return result;
 };
+const generateFailReasonLocs = (lang) => {
+  return {
+    en: {
+      time_limit: 'Time is up',
+      wipe_out: 'Wipe out',
+    },
+    ja: {
+      time_limit: '時間切れ',
+      wipe_out: 'ゼンメツ',
+    },
+  }[lang];
+};
 const generateSpecialLocs = (lang, locale) => {
   const result = {};
   salmonSpecialWeapons.forEach((special) => {
@@ -77,6 +89,7 @@ const generateWeaponLocs = (lang, statInkWeapons) => {
 module.exports = {
   generateBossLocs,
   generateEventLocs,
+  generateFailReasonLocs,
   generateSpecialLocs,
   generateStageLocs,
   generateWaterLevelLocs,
