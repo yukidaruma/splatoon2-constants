@@ -2,14 +2,7 @@ const request = require('request-promise-native');
 const fs = require('fs');
 const path = require('path');
 
-const {
-  generateBossLocs,
-  generateEventLocs,
-  generateSpecialLocs,
-  generateStageLocs,
-  generateWaterLevelLocs,
-  generateWeaponLocs,
-} = require('./generate-locale-object');
+const salmonLocs = require('./generate-salmon-locale-object');
 
 const CACHE_DIR = './cache';
 const DIST_DIR = './dist';
@@ -67,12 +60,13 @@ const cacheGetRequest = async (url, options = {}, cacheName) => {
 
     const salmonLocalePath = path.resolve(DIST_DIR, `salmon/locale/${lang}.json`);
     const salmonLocale = {
-      bosses: generateBossLocs(lang),
-      events: generateEventLocs(lang),
-      specials: generateSpecialLocs(lang, locale),
-      stages: generateStageLocs(lang, locale),
-      water_levels: generateWaterLevelLocs(lang),
-      weapons: generateWeaponLocs(lang, statInkWeapons),
+      boss: salmonLocs.boss(lang),
+      event: salmonLocs.event(lang),
+      fail_reason: salmonLocs.failReason(lang),
+      special: salmonLocs.special(lang, locale),
+      stage: salmonLocs.stage(lang, locale),
+      water_level: salmonLocs.waterLevel(lang),
+      weapon: salmonLocs.weapon(lang, statInkWeapons),
     };
     saveBuiltFile(salmonLocalePath, salmonLocale);
   });
