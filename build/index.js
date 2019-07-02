@@ -2,14 +2,16 @@ const request = require('request-promise-native');
 const fs = require('fs');
 const path = require('path');
 
-const DATA_DIR = './data';
+const {
+  generateBossLocs,
+  generateSpecialLocs,
+  generateStageLocs,
+  generateWeaponLocs,
+} = require('./generate-locale-object');
+
 const CACHE_DIR = './cache';
 const DIST_DIR = './dist';
 
-const statInkLocaleNames = {
-  en: 'en_US',
-  ja: 'ja_JP',
-};
 const supportedLanguages = ['en', 'ja'];
 const requestDefaultOptions = {
   headers: {
@@ -46,8 +48,6 @@ const cacheGetRequest = async (url, options = {}, cacheName) => {
 };
 
 (async () => {
-  const bosses = require(path.resolve(DATA_DIR, 'salmon-bosses.js'));
-  const salmonWeapons = require(path.resolve(DATA_DIR, 'salmon-weapons.js'));
   const statInkWeapons = await cacheGetRequest(
     'https://stat.ink/api/v2/weapon',
     {},
@@ -59,54 +59,6 @@ const cacheGetRequest = async (url, options = {}, cacheName) => {
    */
 
   // Locales
-  const generateBossLocs = (lang) => {
-    const result = {};
-    bosses.forEach((boss) => {
-      result[boss.key] = boss.loc[lang];
-    });
-    return result;
-  };
-  const generateSpecialLocs = (lang, locale) => {
-    const result = {};
-    const salmonSpecialWeapons = [
-      { id: 2, key: 'splashbomb_pitcher' },
-      { id: 7, key: 'presser' },
-      { id: 8, key: 'jetpack' },
-      { id: 9, key: 'chakuchi' },
-    ];
-    salmonSpecialWeapons.forEach((special) => {
-      result[special.key] = locale.weapon_specials[special.id].name;
-    });
-    return result;
-  };
-  const generateStageLocs = (lang, locale) => {
-    const result = {};
-    const stages = require(path.resolve(DATA_DIR, 'salmon-stages.js'));
-    stages.forEach((stage) => {
-      result[stage.key] = locale.coop_stages[stage.splatoon2ink].name;
-    });
-    return result;
-  };
-  const generateWeaponLoc = (lang) => {
-    const result = {};
-    const salmonMainWeapons = statInkWeapons.filter(weapon =>
-      weapon.key === 'splatscope' ||
-      weapon.key === 'liter4k_scope' ||
-      weapon.main_ref === weapon.key
-    );
-    const statInkLocaleName = statInkLocaleNames[lang];
-
-    statInkWeapons.forEach((weapon) => {
-      result[weapon.key] = weapon.name[statInkLocaleName];
-    });
-
-    salmonWeapons.forEach((weapon) => {
-      result[weapon.key] = weapon.loc[lang];
-    })
-
-    return result;
-  };
-
   supportedLanguages.forEach(async (lang) => {
     const locale = await cacheGetRequest(`https://splatoon2.ink/data/locale/${lang}.json`, {}, `splatoon2-ink-locale-${lang}.json`);
     const specials = {};
@@ -116,7 +68,7 @@ const cacheGetRequest = async (url, options = {}, cacheName) => {
       bosses: generateBossLocs(lang),
       specials: generateSpecialLocs(lang, locale),
       stages: generateStageLocs(lang, locale),
-      weapons: generateWeaponLoc(lang),
+      weapons: generateWeaponLocs(lang, statInkWeapons),
     };
     saveBuiltFile(salmonLocalePath, salmonLocale);
   });
