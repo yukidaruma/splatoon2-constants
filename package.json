@@ -18,7 +18,8 @@
   },
   "homepage": "https://github.com/yukidaruma/splatoon2-constants#readme",
   "private": true,
-  "dependencies": {
+  "dependencies": {},
+  "devDependencies": {
     "request": "^2.88.0",
     "request-promise-native": "^1.0.7"
   }
