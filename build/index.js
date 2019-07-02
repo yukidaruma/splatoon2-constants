@@ -67,12 +67,12 @@ const cacheGetRequest = async (url, options = {}, cacheName) => {
 
     const salmonLocalePath = path.resolve(DIST_DIR, `salmon/locale/${lang}.json`);
     const salmonLocale = {
-      bosses: generateBossLocs(lang),
-      events: generateEventLocs(lang),
-      specials: generateSpecialLocs(lang, locale),
-      stages: generateStageLocs(lang, locale),
-      water_levels: generateWaterLevelLocs(lang),
-      weapons: generateWeaponLocs(lang, statInkWeapons),
+      boss: generateBossLocs(lang),
+      event: generateEventLocs(lang),
+      special: generateSpecialLocs(lang, locale),
+      stage: generateStageLocs(lang, locale),
+      water_level: generateWaterLevelLocs(lang),
+      weapon: generateWeaponLocs(lang, statInkWeapons),
     };
     saveBuiltFile(salmonLocalePath, salmonLocale);
   });
