@@ -47,6 +47,7 @@ const cacheGetRequest = async (url, options = {}, cacheName) => {
 
 (async () => {
   const bosses = require(path.resolve(DATA_DIR, 'salmon-bosses.js'));
+  const stages = require(path.resolve(DATA_DIR, 'salmon-stages.js'));
   const salmonWeapons = require(path.resolve(DATA_DIR, 'salmon-weapons.js'));
   const statInkWeapons = await cacheGetRequest(
     'https://stat.ink/api/v2/weapon',
@@ -63,6 +64,13 @@ const cacheGetRequest = async (url, options = {}, cacheName) => {
     const result = {};
     bosses.forEach((boss) => {
       result[boss.key] = boss.loc[lang];
+    });
+    return result;
+  };
+  const generateStageLocs = (lang) => {
+    const result = {};
+    stages.forEach((stage) => {
+      result[stage.key] = stage.loc[lang];
     });
     return result;
   };
@@ -90,6 +98,7 @@ const cacheGetRequest = async (url, options = {}, cacheName) => {
     const salmonLocalePath = path.resolve(DIST_DIR, `salmon/${lang}.json`);
     const salmonLocale = {
       bosses: generateBossLocs(lang),
+      stage: generateStageLocs(lang),
       weapons: generateWeaponLoc(lang),
     };
     saveBuiltFile(salmonLocalePath, salmonLocale);
