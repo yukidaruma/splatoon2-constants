@@ -87,11 +87,11 @@ const generateWeaponLocs = (lang, statInkWeapons) => {
 };
 
 module.exports = {
-  generateBossLocs,
-  generateEventLocs,
-  generateFailReasonLocs,
-  generateSpecialLocs,
-  generateStageLocs,
-  generateWaterLevelLocs,
-  generateWeaponLocs,
+  boss: generateBossLocs,
+  event: generateEventLocs,
+  failReason: generateFailReasonLocs,
+  special: generateSpecialLocs,
+  stage: generateStageLocs,
+  waterLevel: generateWaterLevelLocs,
+  weapon: generateWeaponLocs,
 };
