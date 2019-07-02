@@ -67,6 +67,19 @@ const cacheGetRequest = async (url, options = {}, cacheName) => {
     });
     return result;
   };
+  const generateSpecialLocs = (lang, locale) => {
+    const result = {};
+    const salmonSpecialWeapons = [
+      { id: 2, key: 'splashbomb_pitcher' },
+      { id: 7, key: 'presser' },
+      { id: 8, key: 'jetpack' },
+      { id: 9, key: 'chakuchi' },
+    ];
+    salmonSpecialWeapons.forEach((special) => {
+      result[special.key] = locale.weapon_specials[special.id].name;
+    });
+    return result;
+  };
   const generateStageLocs = (lang) => {
     const result = {};
     stages.forEach((stage) => {
@@ -94,10 +107,14 @@ const cacheGetRequest = async (url, options = {}, cacheName) => {
     return result;
   };
 
-  supportedLanguages.forEach((lang) => {
+  supportedLanguages.forEach(async (lang) => {
+    const locale = await cacheGetRequest(`https://splatoon2.ink/data/locale/${lang}.json`, {}, `splatoon2-ink-locale-${lang}.json`);
+    const specials = {};
+
     const salmonLocalePath = path.resolve(DIST_DIR, `salmon/locale/${lang}.json`);
     const salmonLocale = {
       bosses: generateBossLocs(lang),
+      specials: generateSpecialLocs(lang, locale),
       stages: generateStageLocs(lang),
       weapons: generateWeaponLoc(lang),
     };
